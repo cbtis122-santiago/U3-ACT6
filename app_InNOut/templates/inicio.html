@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Inicio - In-N-Out{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold text-body-emphasis">Bienvenido al Sistema In-N-Out</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">
+      Proyecto de gestión interna. Creado por Ing. Santiago Carrasco.
+    </p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a href="{% url 'ver_sucursales' %}" class="btn btn-primary btn-lg px-4 gap-3">Ver Sucursales</a>
+      <a href="{% url 'agregar_sucursal' %}" class="btn btn-outline-secondary btn-lg px-4">Agregar Sucursal</a>
+    </div>
+  </div>
+</div>
+
+<div class="mt-3 text-center">
+  <img src="data:image/png;base64,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" 
+  alt="In-N-Out" 
+class="img-fluid rounded shadow">
+</div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Estadísticas Rápidas</h2>
+    <div class="card card-soft mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total de Sucursales</h5>
+        <p class="card-text fs-3">{{ total_sucursales }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mt-4">
+    <h3>Últimas 5 Sucursales Agregadas</h3>
+    <ul class="list-group">
+      {% for s in sucursales %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ s.nombre_tienda }} ({{ s.ciudad }})
+          <span class="badge bg-primary rounded-pill">{{ s.fecha_apertura|date:"d M Y" }}</span>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No hay sucursales registradas aún.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Sucursal, Trabajador, Pedido
-
+from .models import Sucursal, Trabajador, Pedido, Proveedor, Producto, Inventario
 # ==========================================
 # INICIO
 # ==========================================
@@ -214,3 +213,188 @@ def borrar_pedido(request, pedido_id):
         pedido.delete()
         return redirect('ver_pedidos')
     return render(request, 'pedido/borrar_pedido.html', {'pedido': pedido})
+
+
+
+# ==========================================
+# VISTAS PARA PROVEEDOR
+# ==========================================
+def agregar_proveedor(request):
+    if request.method == 'POST':
+        nombre_empresa = request.POST.get('nombre_empresa')
+        contacto = request.POST.get('contacto')
+        telefono = request.POST.get('telefono')
+        email = request.POST.get('email')
+        direccion = request.POST.get('direccion')
+        tipo_proveedor = request.POST.get('tipo_proveedor')
+        activo = True if request.POST.get('activo') == 'on' else False
+
+        Proveedor.objects.create(
+            nombre_empresa=nombre_empresa,
+            contacto=contacto,
+            telefono=telefono,
+            email=email,
+            direccion=direccion,
+            tipo_proveedor=tipo_proveedor,
+            activo=activo
+        )
+        return redirect('ver_proveedores')
+    return render(request, 'proveedor/agregar_proveedor.html')
+
+def ver_proveedores(request):
+    proveedores = Proveedor.objects.all().order_by('nombre_empresa')
+    return render(request, 'proveedor/ver_proveedores.html', {'proveedores': proveedores})
+
+def actualizar_proveedor(request, proveedor_id):
+    proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+    return render(request, 'proveedor/actualizar_proveedor.html', {'proveedor': proveedor})
+
+def realizar_actualizacion_proveedor(request, proveedor_id):
+    proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+    if request.method == 'POST':
+        proveedor.nombre_empresa = request.POST.get('nombre_empresa')
+        proveedor.contacto = request.POST.get('contacto')
+        proveedor.telefono = request.POST.get('telefono')
+        proveedor.email = request.POST.get('email')
+        proveedor.direccion = request.POST.get('direccion')
+        proveedor.tipo_proveedor = request.POST.get('tipo_proveedor')
+        proveedor.activo = True if request.POST.get('activo') == 'on' else False
+        proveedor.save()
+        return redirect('ver_proveedores')
+    return redirect('ver_proveedores')
+
+def borrar_proveedor(request, proveedor_id):
+    proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+    if request.method == 'POST':
+        proveedor.delete()
+        return redirect('ver_proveedores')
+    return render(request, 'proveedor/borrar_proveedor.html', {'proveedor': proveedor})
+
+# ==========================================
+# VISTAS PARA PRODUCTO
+# ==========================================
+def agregar_producto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        categoria = request.POST.get('categoria')
+        precio = request.POST.get('precio')
+        costo = request.POST.get('costo')
+        disponible = True if request.POST.get('disponible') == 'on' else False
+        imagen = request.POST.get('imagen')
+
+        Producto.objects.create(
+            nombre=nombre,
+            descripcion=descripcion,
+            categoria=categoria,
+            precio=precio,
+            costo=costo,
+            disponible=disponible,
+            imagen=imagen
+        )
+        return redirect('ver_productos')
+    return render(request, 'producto/agregar_producto.html')
+
+def ver_productos(request):
+    productos = Producto.objects.all().order_by('categoria', 'nombre')
+    return render(request, 'producto/ver_productos.html', {'productos': productos})
+
+def actualizar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    return render(request, 'producto/actualizar_producto.html', {'producto': producto})
+
+def realizar_actualizacion_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == 'POST':
+        producto.nombre = request.POST.get('nombre')
+        producto.descripcion = request.POST.get('descripcion')
+        producto.categoria = request.POST.get('categoria')
+        producto.precio = request.POST.get('precio')
+        producto.costo = request.POST.get('costo')
+        producto.disponible = True if request.POST.get('disponible') == 'on' else False
+        producto.imagen = request.POST.get('imagen')
+        producto.save()
+        return redirect('ver_productos')
+    return redirect('ver_productos')
+
+def borrar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == 'POST':
+        producto.delete()
+        return redirect('ver_productos')
+    return render(request, 'producto/borrar_producto.html', {'producto': producto})
+
+# ==========================================
+# VISTAS PARA INVENTARIO
+# ==========================================
+def agregar_inventario(request):
+    productos = Producto.objects.all()
+    proveedores = Proveedor.objects.all()
+    
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto')
+        proveedor_id = request.POST.get('proveedor')
+        cantidad = request.POST.get('cantidad')
+        unidad_medida = request.POST.get('unidad_medida')
+        stock_minimo = request.POST.get('stock_minimo')
+        ubicacion = request.POST.get('ubicacion')
+        lote = request.POST.get('lote')
+
+        producto = get_object_or_404(Producto, id=producto_id)
+        proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+
+        Inventario.objects.create(
+            producto=producto,
+            proveedor=proveedor,
+            cantidad=cantidad,
+            unidad_medida=unidad_medida,
+            stock_minimo=stock_minimo,
+            ubicacion=ubicacion,
+            lote=lote
+        )
+        return redirect('ver_inventarios')
+    
+    return render(request, 'inventario/agregar_inventario.html', {
+        'productos': productos,
+        'proveedores': proveedores
+    })
+
+def ver_inventarios(request):
+    inventarios = Inventario.objects.all().order_by('producto__nombre')
+    return render(request, 'inventario/ver_inventarios.html', {'inventarios': inventarios})
+
+def actualizar_inventario(request, inventario_id):
+    inventario = get_object_or_404(Inventario, id=inventario_id)
+    productos = Producto.objects.all()
+    proveedores = Proveedor.objects.all()
+    
+    return render(request, 'inventario/actualizar_inventario.html', {
+        'inventario': inventario,
+        'productos': productos,
+        'proveedores': proveedores
+    })
+
+def realizar_actualizacion_inventario(request, inventario_id):
+    inventario = get_object_or_404(Inventario, id=inventario_id)
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto')
+        proveedor_id = request.POST.get('proveedor')
+        inventario.cantidad = request.POST.get('cantidad')
+        inventario.unidad_medida = request.POST.get('unidad_medida')
+        inventario.stock_minimo = request.POST.get('stock_minimo')
+        inventario.ubicacion = request.POST.get('ubicacion')
+        inventario.lote = request.POST.get('lote')
+        
+        inventario.producto = get_object_or_404(Producto, id=producto_id)
+        inventario.proveedor = get_object_or_404(Proveedor, id=proveedor_id)
+        inventario.save()
+        
+        return redirect('ver_inventarios')
+    return redirect('ver_inventarios')
+
+def borrar_inventario(request, inventario_id):
+    inventario = get_object_or_404(Inventario, id=inventario_id)
+    if request.method == 'POST':
+        inventario.delete()
+        return redirect('ver_inventarios')
+    return render(request, 'inventario/borrar_inventario.html', {'inventario': inventario})

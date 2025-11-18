@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Agregar Inventario{% endblock %}
+{% block content %}
+<div class="card p-4 card-soft">
+  <h4>Agregar al Inventario</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Producto</label>
+        <select class="form-select" name="producto" required>
+          <option value="">-- Selecciona producto --</option>
+          {% for producto in productos %}
+            <option value="{{ producto.id }}">{{ producto.nombre }} - ${{ producto.precio }}</option>
+          {% empty %}
+            <option value="">No hay productos registrados</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Proveedor</label>
+        <select class="form-select" name="proveedor" required>
+          <option value="">-- Selecciona proveedor --</option>
+          {% for proveedor in proveedores %}
+            <option value="{{ proveedor.id }}">{{ proveedor.nombre_empresa }}</option>
+          {% empty %}
+            <option value="">No hay proveedores registrados</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Cantidad</label>
+        <input class="form-control" name="cantidad" type="number" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Unidad de Medida</label>
+        <input class="form-control" name="unidad_medida" value="unidades">
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Stock Mínimo</label>
+        <input class="form-control" name="stock_minimo" type="number" value="10">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Ubicación en Almacén</label>
+        <input class="form-control" name="ubicacion" value="Almacén principal">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Número de Lote</label>
+        <input class="form-control" name="lote" placeholder="LOTE-001">
+      </div>
+    </div>
+
+    <button class="btn btn-primary"><i class="bi bi-save"></i> Guardar Inventario</button>
+    <a href="{% url 'ver_inventarios' %}" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Cancelar</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Ver Productos{% endblock %}
+{% block content %}
+<div class="card card-soft p-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Productos del Menú</h4>
+    <a class="btn btn-success" href="{% url 'agregar_producto' %}">
+      <i class="bi bi-plus"></i> Nuevo Producto
+    </a>
+  </div>
+
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Costo</th>
+        <th>Disponible</th>
+        <th>Fecha Creación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for producto in productos %}
+      <tr>
+        <td>{{ producto.nombre }}</td>
+        <td><span class="badge bg-secondary">{{ producto.categoria }}</span></td>
+        <td>${{ producto.precio }}</td>
+        <td>${{ producto.costo }}</td>
+        <td>{% if producto.disponible %}Sí{% else %}No{% endif %}</td>
+        <td>{{ producto.fecha_creacion|date:"d/m/Y" }}</td>
+        <td>
+          <a class="btn btn-sm btn-info" href="{% url 'actualizar_producto' producto.id %}">Editar</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'borrar_producto' producto.id %}">Borrar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="text-center">No hay productos registrados</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

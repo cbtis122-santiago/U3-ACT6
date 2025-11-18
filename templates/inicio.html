@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block title %}Inicio - IN-N-OUT{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 mb-4">
+    <div class="card card-soft p-4 text-center">
+      <h2 class="text-primary">Bienvenido al Sistema de Administración IN-N-OUT</h2>
+      <p class="lead">Gestiona sucursales, trabajadores, pedidos, productos, proveedores e inventario</p>
+      
+      <!-- Estadísticas rápidas -->
+      <div class="row mt-4">
+        <div class="col-md-2">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <h3>{{ total_sucursales }}</h3>
+              <p>Sucursales</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <h3>{{ total_trabajadores }}</h3>
+              <p>Trabajadores</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <h3>{{ total_pedidos }}</h3>
+              <p>Pedidos</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card bg-warning text-white">
+            <div class="card-body">
+              <h3>{{ total_productos }}</h3>
+              <p>Productos</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card bg-secondary text-white">
+            <div class="card-body">
+              <h3>{{ total_proveedores }}</h3>
+              <p>Proveedores</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card bg-dark text-white">
+            <div class="card-body">
+              <h3>{{ total_inventarios }}</h3>
+              <p>Inventarios</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN DE BOTONES RÁPIDOS -->
+<div class="row">
+  
+  <!-- SUCURSALES -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-shop"></i> Sucursales
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Gestiona las sucursales de IN-N-OUT</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_sucursal' %}" class="btn btn-outline-primary">
+            <i class="bi bi-plus-circle"></i> Agregar Sucursal
+          </a>
+          <a href="{% url 'ver_sucursales' %}" class="btn btn-outline-primary">
+            <i class="bi bi-list-ul"></i> Ver Sucursales
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRABAJADORES -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-success text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-person-badge"></i> Trabajadores
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Administra el personal de IN-N-OUT</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_trabajador' %}" class="btn btn-outline-success">
+            <i class="bi bi-person-plus"></i> Agregar Trabajador
+          </a>
+          <a href="{% url 'ver_trabajadores' %}" class="btn btn-outline-success">
+            <i class="bi bi-people"></i> Ver Trabajadores
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PEDIDOS -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-info text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-cart"></i> Pedidos
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Controla los pedidos del restaurante</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_pedido' %}" class="btn btn-outline-info">
+            <i class="bi bi-cart-plus"></i> Agregar Pedido
+          </a>
+          <a href="{% url 'ver_pedidos' %}" class="btn btn-outline-info">
+            <i class="bi bi-receipt"></i> Ver Pedidos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-warning text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-egg-fried"></i> Productos
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Gestiona el menú de IN-N-OUT</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_producto' %}" class="btn btn-outline-warning">
+            <i class="bi bi-plus-circle"></i> Agregar Producto
+          </a>
+          <a href="{% url 'ver_productos' %}" class="btn btn-outline-warning">
+            <i class="bi bi-list-ul"></i> Ver Productos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROVEEDORES -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-truck"></i> Proveedores
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Administra los proveedores</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_proveedor' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-plus-circle"></i> Agregar Proveedor
+          </a>
+          <a href="{% url 'ver_proveedores' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-list-ul"></i> Ver Proveedores
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVENTARIO -->
+  <div class="col-md-4 mb-4">
+    <div class="card card-soft">
+      <div class="card-header bg-dark text-white">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-clipboard-data"></i> Inventario
+        </h5>
+      </div>
+      <div class="card-body text-center">
+        <p>Controla el stock de productos</p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'agregar_inventario' %}" class="btn btn-outline-dark">
+            <i class="bi bi-plus-circle"></i> Agregar Inventario
+          </a>
+          <a href="{% url 'ver_inventarios' %}" class="btn btn-outline-dark">
+            <i class="bi bi-list-ul"></i> Ver Inventario
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

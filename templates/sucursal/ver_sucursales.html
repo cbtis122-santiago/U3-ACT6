@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Sucursales{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Listado de Sucursales</h2>
+  <a href="{% url 'agregar_sucursal' %}" class="btn btn-primary">
+    + Agregar Nueva
+  </a>
+</div>
+
+<div class="card card-soft">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Nombre Tienda</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Drive-Thru</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in sucursales %}
+          <tr>
+            <td>{{ s.nombre_tienda }}</td>
+            <td>{{ s.ciudad }}</td>
+            <td>{{ s.telefono_tienda }}</td>
+            <td>
+              {% if s.es_drive_thru %}
+                <span class="badge bg-success">Sí</span>
+              {% else %}
+                <span class="badge bg-danger">No</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'actualizar_sucursal' s.id %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'borrar_sucursal' s.id %}" class="btn btn-sm btn-danger">Borrar</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">No hay sucursales registradas.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

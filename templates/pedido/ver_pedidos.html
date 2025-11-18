@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Ver Pedidos{% endblock %}
+{% block content %}
+<div class="card card-soft p-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Pedidos</h4>
+    <a class="btn btn-success" href="{% url 'agregar_pedido' %}">
+      <i class="bi bi-plus"></i> Nuevo Pedido
+    </a>
+  </div>
+
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Número de Orden</th>
+        <th>Total</th>
+        <th>Tipo</th>
+        <th>Cliente</th>
+        <th>Pagado</th>
+        <th>Trabajador</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pedidos %}
+      <tr>
+        <td>{{ p.numero_orden }}</td>
+        <td>${{ p.total_pedido }}</td>
+        <td>{{ p.tipo_orden }}</td>
+        <td>{{ p.nombre_cliente_temporal }}</td>
+        <td>{% if p.pagado %}Sí{% else %}No{% endif %}</td>
+        <td>{% if p.trabajador %}{{ p.trabajador.nombre }} {{ p.trabajador.apellido }}{% else %}-{% endif %}</td>
+        <td>{{ p.fecha_pedido|date:"d/m/Y H:i" }}</td>
+        <td>
+          <a class="btn btn-sm btn-info" href="{% url 'actualizar_pedido' p.id %}">Editar</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'borrar_pedido' p.id %}">Borrar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" class="text-center text-muted">No existen pedidos registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
